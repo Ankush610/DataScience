@@ -46,7 +46,7 @@ Welcome to the **Data Science Guide**! This repository serves as your comprehens
 
 ## 🔍 Exploratory Data Analysis
 
-- **Statistics & Descriptive Stats**
+- **Inferential Statistics & Descriptive Stats**
 - **Data Handling**: Key commands to manipulate data.
 - **Visualization Techniques**: Bar plots, heatmaps, scatterplots, etc.
 
@@ -74,20 +74,6 @@ Welcome to the **Data Science Guide**! This repository serves as your comprehens
 ## 🔮 Future Work
 
 - Continuous updates and new content to keep you informed!
-
----
-
-## 🤝 Contributing
-
-Your contributions are welcome! Feel free to open issues, fork the repository, or submit pull requests.
-
----
-
-## 📧 Contact
-
-For questions or feedback, reach out to me at:  
-**Email**: [ankushsonawane60@gmail.com](mailto:ankushsonawane60@gmail.com)  
-**GitHub**: [Ankush610](https://github.com/Ankush610)
 
 ---
 
