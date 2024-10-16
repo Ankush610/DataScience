@@ -1,0 +1,14 @@
+<span style="color:#2E86C1"><b>this is blue for main heading</b></span>
+    -   <span style="color:#D35400"><b>this is orange for sub heading1</b></span>
+        -   <span style="color:#28B463"><b>this is green for sub heading2</b></span>
+
+#use --- to divide in sections 
+
+<center><img src="../../images/image_name.png" alt="error" width="1000"/></center>
+
+`this is for highlight`
+
+```bash 
+this is for code 
+```
+$$ formula under latex $$ 
