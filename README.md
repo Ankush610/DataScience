@@ -71,10 +71,4 @@ Welcome to the **Data Science Guide**! This repository serves as your comprehens
 
 ---
 
-## 🔮 Future Work
-
-- Continuous updates and new content to keep you informed!
-
----
-
 ✨ Happy Learning! ✨
