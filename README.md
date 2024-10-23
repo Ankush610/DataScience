@@ -1,6 +1,4 @@
-Here’s the updated README.md with the main headings of the topics that will be covered:
 
----
 
 # 🌟 Data Science and Deep Learning Learning Guide 🌟
 
@@ -80,6 +78,3 @@ Explore everything from statistics to machine learning techniques and understand
 
 Happy learning, and may your data science journey be both fun and rewarding! 💡
 
---- 
-
-This format presents all the main headings that will be covered in the repository, while keeping the structure clean and user-friendly.
