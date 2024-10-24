@@ -2,6 +2,8 @@
 - ## <span style="color:#D35400"><b>this is orange for sub heading1</b></span>
     - ### <span style="color:#28B463"><b>this is green for sub heading2</b></span>
 
+colors : [2E86C1,D35400,28B463,F39C12,E74C3C,9B59B6]
+
 ( create a depth by adding TAB spaces )
 
 #use --- to divide in sections if necessary 
