@@ -1,0 +1,97 @@
+
+<p>Most ML and AI libraries don&rsquo;t require you to understand the math behind backpropagation to perform the process. TensorFlow, sklearn, and most other machine learning packages have incorporated backpropagation methods.</p>
+<p>But knowing how it works will help you grasp the concept deeper and improve your performance of vanilla neural networks and ability to tackle more complex deep learning architectures.</p>
+<p>This article breaks down backpropagation into its components and defines all concepts involved in the equations. It assumes a general understanding of neural networks and familiarity with backpropagation. Still, it recaps the basics and provides all necessary definitions to understand the backpropagation formulas.</p>
+<p>The topics we touch on in this article are covered in detail in our&nbsp;<a href="https://365datascience.com/courses/deep-learning-with-tensorflow-2-0/">Deep Learning with TensorFlow 2</a>&nbsp;course.</p>
+<h2>What Is Backpropagation?</h2>
+<p>The machine learning process is iterative. We feed <strong>data</strong> into the <strong>model</strong> and measure its accuracy through the <strong>objective function</strong>. Then, with the help of <strong>optimization algorithms</strong>, we vary the model&rsquo;s parameters (weights and biases) until we reach the desired outputs. This comprises the training stage.</p>
+<p>Forward propagation is the process of pushing inputs through the net. At the end of each epoch, we compare the obtained outputs to the targets to form the errors. In backpropagation, we reverse the process and adjust the weights and biases based on the obtained errors, minimizing the loss.</p>
+<p>Backpropagation&mdash;short for &lsquo;backward propagation of errors&rsquo;&mdash;is an optimization algorithm used to improve the accuracy of artificial neural networks. It&rsquo;s an essential component of the gradient descent optimization process.</p>
+<h3>Deep Neural Network Components</h3>
+<p>Before diving into the math behind backpropagation, we must understand deep neural networks&rsquo; components. In the following example, we provide several denotations in the computations below.</p>
+<p style="text-align: center;"><img title="A deep neural network with one hidden layer" src="https://365datascience.com/resources/blog/thumb@1024_2017-11-Backpropagation.webp" data-ext="jpg" alt="Deep Neural Net" width="1213" height="479" />&nbsp;</p>
+<p><!--StartFragment --></p>
+<p class="pf0"><span class="cf0">The deep neural network above contains an <strong>input layer</strong>, a <strong>hidden layer</strong>, and an <strong>output layer</strong>. It contains two inputs \( (x_1 \text{ and } x_2) \), three hidden units (<strong>nodes</strong>) <!--StartFragment -->\( (h_1, h_2, \text{ and } h_3) \), and two outputs <!--StartFragment -->\( (y_1 \text{ and } y_2) \)<!--EndFragment -->.<!--EndFragment --></span></p>
+<p><!--EndFragment --></p>
+<p>The arrows that connect them are the <strong>weights</strong> (here, denoted by <!--StartFragment --><span class="cf0">\( w \)</span><!--EndFragment --><em>&nbsp;</em>and <!--StartFragment --><span class="cf0">\( u \)</span><!--EndFragment -->). The <!--StartFragment --><span class="cf0">\( w \)</span><!--EndFragment --><em>&nbsp;</em>weights connect the input and the hidden layers. The <!--StartFragment --><span class="cf0">\( u \)</span><!--EndFragment -->&nbsp;weights connect the hidden and the output layers. Lastly, we have the targets <!--StartFragment --><span class="cf0">\( t_1 \) and <!--StartFragment -->\( t_2 \).<!--EndFragment --></span><!--EndFragment --></p>
+<h2>Backpropagation Concepts Explained</h2>
+<p>This section introduces key concepts and formulas to understand the more complex backpropagation computations below.</p>
+<h3>The Sigmoid Function</h3>
+<p>Deep neural networks are characterized by the existence of hidden layers, allowing us to represent complex relationships. And to stack layers, we need to add non-linearity (activation or transfer functions) to the weights. Activation functions transform inputs into outputs of a different kind. We cannot stack layers with linear relationships only.</p>
+<p>Each arrow in the graphical representation above represents a mathematical transformation of a specific value or the linearly combined inputs with the added non-linearity to the weights in a neural network. In other words, we apply a given weight to the input, add non-linearity, and obtain the hidden layer&rsquo;s units.</p>
+<p>The sigmoid (logistic function) is one of the most common non-linearities. We represent it using the following equation.</p>
+<p>\[ \sigma(x)=\frac{1}{1+e^{-x}} \]</p>
+<p>The sigmoid&rsquo;s derivative formula is the following:</p>
+<p>\[ \sigma'(x) = \sigma(x)~(1-\sigma(x)) \]</p>
+<p>The sigmoid activation function transforms the input values to obtain a new vector with values comprising the next layer.</p>
+<h3>The L-2 Norm</h3>
+<p>Objective functions are split into loss (cost) and reward functions. Here, we focus on loss functions, which measure the error of prediction.</p>
+<p>The lower the cost function, the higher the model&rsquo;s accuracy. So, we aim to minimize the error of prediction, and, consequently, the cost.</p>
+<p>A typical loss function&mdash;used in supervised learning and, more concretely, regression&mdash;is the L2-norm or squared loss. The word &lsquo;norm&rsquo; comes from &lsquo;vector norm&rsquo;&mdash;the Euclidean distance between the outputs and the targets.</p>
+<p>We obtain this by calculating the sum of the squared differences between the outputs <em>y </em>and the targets <em>t</em>. Its mathematical expression is the following:</p>
+<p>\[ \text{L2-norm loss: }L = \frac{1}{2}~\sum_i(y_i-t_i)^2 \]</p>
+<p>Next, we examine the backpropagation algorithm for the output and hidden layers. We review them separately because the methodologies differ. But first, we must introduce a few more notations for the computations.</p>
+<p>The linear model function equals:</p>
+<p>f(x) = xw + b</p>
+<p>where:</p>
+<p>x &ndash; input</p>
+<p>w &ndash; coefficient (weight)</p>
+<p>b &ndash; intercept (bias)</p>
+<p>Here, we&rsquo;ll use&nbsp;<em>a</em>&nbsp;for the linear combination before activation, where:</p>
+<p><!--StartFragment --><span class="cf0">\( a^{(1)} = xw + b^{(1)} \)</span><!--EndFragment --></p>
+<p>and</p>
+<p><!--StartFragment --><span class="cf0">\( a^{(2)} = hu + b^{(2)} \)</span><!--EndFragment --></p>
+<p>With this notation, the output <em>y</em> equals the activated linear combination. Since we cannot exhaust all activation and loss functions, we focus on the most common ones:&nbsp;<strong>sigmoid&nbsp;activation</strong> and&nbsp;<strong>L2-norm&nbsp;loss</strong>. Therefore, for the output layer, we have <!--StartFragment --><span class="cf0">\( y=\sigma\left( a^{(2)} \right) \), while for the hidden layer we obtain <!--StartFragment -->\( h=\sigma\left( a^{(1)} \right) \).<!--EndFragment --></span><!--EndFragment --></p>
+<h2>Backpropagation for the Output Layer</h2>
+<p>In supervised learning, the optimization process consists of minimizing the loss. The idea of backpropagation is to compute the gradient of the loss function concerning the weights and biases of each unit in the network. Then, we use the gradients obtained to update the parameters such that the loss we compute at the new value is less than the loss at the current value. The loss decreases by iteratively adjusting the weights and biases based on the obtained gradients, and the network gradually learns to make better predictions.</p>
+<p>The updates are directly related to the partial derivatives of the loss and indirectly related to the errors or deltas&mdash;the differences between targets and outputs. Having these deltas allows us to modify the parameters using the update rule.</p>
+<p>We obtain the update rule using the following function:</p>
+<p>\[ \textbf{u} \leftarrow \textbf{u}-\eta\nabla_\textbf{u}L(\textbf{u}) \]</p>
+<p>Where \( \eta \) (eta) is the ML algorithm's learning rate.</p>
+<p>How do we calculate \( \nabla_\textbf{u}L(\textbf{u}) \)?</p>
+<p>Let's take a single weight <!--StartFragment --><span class="cf0">\( u_{ij} \). The partial derivative of the loss w.r.t. <!--StartFragment -->\( u_{ij} \) equals:<!--EndFragment --></span><!--EndFragment --></p>
+<p>\[ \frac{\partial L}{\partial u_{ij}} = \frac{\partial L}{\partial y_j} ~ \frac{\partial y_j}{\partial a_j^{(2)}} ~ \frac{\partial a_j^{(2)}}{\partial u_{ij}} \]</p>
+<p>Where:</p>
+<p><em>i&nbsp;</em>corresponds to the previous layer (input layer for this transformation) and</p>
+<p><em>j</em> corresponds to the next layer (output layer of the transformation).</p>
+<p>We compute the partial derivatives following the chain rule.</p>
+<p>The first one is the L2-norm loss derivative:</p>
+<p>\[ \frac{\partial L}{\partial y_j} = (y_j - t_j) \]</p>
+<p>The second one is the sigmoid derivative:</p>
+<p>\[ \frac{\partial y_j}{\partial a_j^{(2)}} = \sigma\left( a_j^{(2)} \right) ~ \left( 1 - \sigma\left( a_j^{(2)} \right) \right) = y_j~(1-y_j) \]</p>
+<p>Finally, the third one is the derivative of <!--StartFragment --><span class="cf0">\( a^{(2)} = hu + b^{(2)} \), which equals:</span><!--EndFragment --></p>
+<p>\[ \frac{\partial a_j^{(2)}}{\partial u_{ij}} = h_i \]</p>
+<p>Replacing the partial derivatives in the expression above, we get:</p>
+<p>\[ \frac{\partial L}{\partial u_{ij}} = \frac{\partial L}{\partial y_j} ~ \frac{\partial y_j}{\partial a_j^{(2)}} ~ \frac{\partial a_j^{(2)}}{\partial u_{ij}} = (y_j-t_j)~y_j~(1-y_j)~h_i = \delta_j h_i \]&nbsp;</p>
+<p>Therefore, we obtain the update rule for a single weight for the output layer using the following:</p>
+<p>\[ u_{ij} \leftarrow u_{ij}-\eta~\delta_j~h_i \]</p>
+<h2>Backpropagation for a Hidden Layer</h2>
+<p>When working with deep neural networks, we must update the weights in several hidden layers. We must also consider the activation functions and update the weights in accordance with the used non-linearities and their derivates.</p>
+<p>So, how does backpropagation work in this case?</p>
+<p>Similarly to the backpropagation of the output layer, the update rule for a single weight, <!--StartFragment --><span class="cf0">\( w_{ij} \),&nbsp;</span>is the following:</p>
+<p>\[ \frac{\partial L}{\partial w_{ij}} = \frac{\partial L}{\partial h_j} ~ \frac{\partial h_j}{\partial a_j^{(1)}} ~ \frac{\partial a_j^{(1)}}{\partial w_{ij}} \]</p>
+<p>Again, we compute backpropagation following the chain rule.</p>
+<p>We use the sigmoid activation and linear model formulas to obtain the following:</p>
+<p>\[ \frac{\partial h_j}{\partial a_j^{(1)}} = \sigma\left( a_j^{(1)} \right) ~ \left( 1 - \sigma\left( a_j^{(1)} \right) \right) = h_j~(1-h_j) \]</p>
+<p>and</p>
+<p>\[ \frac{\partial a_j^{(1)}}{\partial w_{ij}} = x_i \]</p>
+<p>But the calculation of the third component \( \frac{\partial L}{\partial h_{j}} \) is more complex.</p>
+<p>The problem is that we don&rsquo;t have targets for the hidden layers&rsquo; outputs, so we can&rsquo;t calculate the deltas as we did for the output layers.</p>
+<p>Instead, we solve this issue by tracing the contribution of each unit (hidden or not) to the outputs&rsquo; errors. Let&rsquo;s illustrate this with the following backpropagation example.</p>
+<p>Going back to the neural network above, we see that the weight <span class="cf0">\( u_{11} \)</span><em>&nbsp;</em>contributes to the output <span class="cf0">\( y_{1} \)</span> and, respectively, to its error (let&rsquo;s call it <span class="cf0">\( e_{1} \)</span>). So, we can easily find its derivative and update the parameters.</p>
+<p>But matters become more complicated when we get to the hidden layer. The weight <span class="cf0">\( w_{11} \)</span> contributes to <span class="cf0">\( h_{1} \)</span>. But <span class="cf0">\( h_{1} \)</span><em>&nbsp;</em>is connected to the weights <span class="cf0">\( u_{11} \)</span><em>&nbsp;</em>and <span class="cf0">\( u_{12} \)</span>, contributing to two outputs. This means we can trace the contribution of <span class="cf0">\( w_{11} \)</span> to two outputs (<span class="cf0">\( y_{1} \)</span><em>&nbsp;</em>and <span class="cf0">\( y_{2} \)</span>) and errors (<span class="cf0">\( e_{1} \)</span> and <span class="cf0">\( e_{2} \)</span>).</p>
+<p>How do we solve this problem?</p>
+<p>We take the errors and backpropagate them through the net using the <em>u</em> weights. This allows us to measure the contribution of the hidden layers to the respective errors and use it to update the <em>w </em>weights.</p>
+<p>Of course, this is a simplified explanation of the backpropagation algorithm for hidden layers. In the calculations, we must also account for non-linearities.</p>
+<p>Let&rsquo;s take the solution for weight <!--StartFragment --><span class="cf0">\( w_{11} \) as an example:</span><!--EndFragment --></p>
+<p>\[ \frac{\partial L}{\partial h_1} = \frac{\partial L}{\partial y_1} ~ \frac{\partial y_1}{\partial a_1^{(2)}} ~ \frac{\partial a_1^{(2)}}{\partial h_{1}} + \frac{\partial L}{\partial y_2} ~ \frac{\partial y_2}{\partial a_2^{(2)}} ~ \frac{\partial a_2^{(2)}}{\partial h_{1}} =\]</p>
+<p>\[ =(y_{1} - t_{1})y_{1}(1 - y_{1})u_{11} + (y_{2} - t_{2})y_{2}(1 - y_{2})u_{12} \]</p>
+<p>Now, we can calculate \( \frac{\partial L}{\partial w_{11}} \), which was the only missing part of the update rule for the hidden layer. The final expression is:</p>
+<p>\[ \frac{\partial L}{\partial w_{11}} = \left[ (y_1-t_1)~y_1~(1-y_1)~u_{11} + (y_2-t_2)~y_2~(1-y_2)~u_{12} \right]~h_1~(1-h_1)~x_1 \]&nbsp;</p>
+<p>The generalized form of this equation is:</p>
+<p>\[ \frac{\partial L}{\partial w_{ij}} = \sum_k (y_k-t_k)~y_k~(1-y_k)~u_{jk}~h_j~(1-h_j)~x_i \]&nbsp;</p>
+<h2>Backpropagation Generalization</h2>
+<p>We combine the backpropagation for the output and the hidden layers to obtain the general backpropagation formula with the L2-norm loss and sigmoid activations.</p>
+<p>\[ \frac{\partial L}{\partial w_{ij}} = \delta_j~x_i \]&nbsp;</p>
+<p>where for a hidden layer</p>
+<p>\[ \delta_j = \sum_k \delta_k~w_{jk}~y_j~(1-y_j)~x_i \]</p>
