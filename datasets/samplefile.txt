@@ -1,0 +1,16 @@
+Hello Ankush,  
+
+Please contact John Doe at john.doe@example.com or jane_doe99@mail.co.uk.  
+Our website: https://www.example.com/path?query=123 and backup: http://sub.example.org.  
+
+Order IDs: ORD-2025-0001, ORD-2024-9876.  
+Invoice total: $1,299.99 USD, Discount: 15%, Weight: 2.5kg, Height: 180cm.  
+
+Meeting scheduled on 13-08-2025 at 10:45 AM.  
+Backup date: 2025/08/20 or 20 Aug 2025.  
+
+Phone numbers: +91-9876543210, (022) 2345-6789, 555-1234.  
+
+Random strings: abc123xyz, XY_42_test, A1B2C3.  
+
+Note: Some emails may be fake@example, some links without protocol: www.fake-site.net.  
